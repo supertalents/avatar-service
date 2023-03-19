@@ -59,6 +59,7 @@ def cn(model,prompt, image, height, width , num_inference_steps, scale, seed, lo
         generator=generator,
         num_images_per_prompt=1,
         num_inference_steps=num_inference_steps,
+        # mask_image=mask
     )
     # return [canny_image,output.images[0]]
     return output.images[0]

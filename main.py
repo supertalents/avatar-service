@@ -1,5 +1,5 @@
 from diffusers import StableDiffusionControlNetPipeline, ControlNetModel
-from diffusers import DDIMScheduler
+from diffusers import DDIMScheduler, UniPCMultistepScheduler
 from PIL import Image
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS, cross_origin
@@ -31,16 +31,19 @@ def loading():
     except:
         controlnet_canny = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16)
         pipe_canny = StableDiffusionControlNetPipeline.from_pretrained(
-            "SG161222/Realistic_Vision_V1.3_Fantasy.ai", controlnet=controlnet_canny, safety_checker=None, torch_dtype=torch.float16
+            "8glabs/realistic_vision_13", controlnet=controlnet_canny, safety_checker=None, torch_dtype=torch.float16
         )
-        # pipe_canny.scheduler = UniPCMultistepScheduler.from_config(pipe_canny.scheduler.config)
-        pipe_canny.scheduler = DDIMScheduler.from_config(pipe_canny.scheduler.config)
+        pipe_canny.scheduler = UniPCMultistepScheduler.from_config(pipe_canny.scheduler.config)
+        # pipe_canny.scheduler = DDIMScheduler.from_config(pipe_canny.scheduler.config)
         pipe_canny.enable_model_cpu_offload()
 
         pipe_canny.enable_xformers_memory_efficient_attention()
         device="cuda"
         pipe_canny = pipe_canny.to(device)
 
+@app.route("/", methods=['GET'])
+def index():
+    return "Live"
 
 @app.route('/controlnet',methods=['POST'])
 @cross_origin()
@@ -62,11 +65,12 @@ def get_image():
         # bootstrapping = int(data['bootstrapping'])
         seed = int(data['seed'])
         image = data['image']
+        # mask = data['mask']
 
         base64_bytes = base64.b64decode(image)
         image = Image.open(BytesIO(base64_bytes))
 
-        image = cn(model=pipe_canny,prompt=prompt, image=image, height=height, width=width , num_inference_steps=num_inference_steps, scale=guidance_scale, seed=seed, low_threshold=low_threshold, high_threshold=high_threshold,  nprompt=nprompt)
+        image = cn(model=pipe_canny,prompt=prompt, image=image ,height=height, width=width , num_inference_steps=num_inference_steps, scale=guidance_scale, seed=seed, low_threshold=low_threshold, high_threshold=high_threshold,  nprompt=nprompt)
         # cn(model, sampler ,prompt, image, image_resolution, ddim_steps, scale, seed, eta, low_threshold, high_threshold,  nprompt):
         # image = multsd(sd, mask=image)    # sd = MultiDiffusion(device, opt.sd_version)
 
