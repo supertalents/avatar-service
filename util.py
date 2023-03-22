@@ -23,6 +23,7 @@ def HWC3(x):
 
 def resize_image(input_image, resolution):
     H, W, C = input_image.shape
+    #nn
     H = float(H)
     W = float(W)
     k = float(resolution) / min(H, W)
