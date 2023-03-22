@@ -1,9 +1,8 @@
 from diffusers import StableDiffusionControlNetPipeline, ControlNetModel
-from diffusers import DDIMScheduler, UniPCMultistepScheduler
+from diffusers import DDIMScheduler
 from PIL import Image
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS, cross_origin
-# from flask_cors import CORS
 import time
 import base64
 from io import BytesIO
@@ -33,14 +32,13 @@ def loading():
         pipe_canny = StableDiffusionControlNetPipeline.from_pretrained(
             "8glabs/realistic_vision_13", controlnet=controlnet_canny, safety_checker=None, torch_dtype=torch.float16
         )
-        pipe_canny.scheduler = UniPCMultistepScheduler.from_config(pipe_canny.scheduler.config)
-        # pipe_canny.scheduler = DDIMScheduler.from_config(pipe_canny.scheduler.config)
-        pipe_canny.enable_model_cpu_offload()
+        pipe_canny.scheduler = DDIMScheduler.from_config(pipe_canny.scheduler.config)
 
         pipe_canny.enable_xformers_memory_efficient_attention()
         device="cuda"
         pipe_canny = pipe_canny.to(device)
 
+        
 @app.route("/", methods=['GET'])
 def index():
     return "Live"
@@ -71,8 +69,6 @@ def get_image():
         image = Image.open(BytesIO(base64_bytes))
 
         image = cn(model=pipe_canny,prompt=prompt, image=image ,height=height, width=width , num_inference_steps=num_inference_steps, scale=guidance_scale, seed=seed, low_threshold=low_threshold, high_threshold=high_threshold,  nprompt=nprompt)
-        # cn(model, sampler ,prompt, image, image_resolution, ddim_steps, scale, seed, eta, low_threshold, high_threshold,  nprompt):
-        # image = multsd(sd, mask=image)    # sd = MultiDiffusion(device, opt.sd_version)
 
 
         buffered = BytesIO()
