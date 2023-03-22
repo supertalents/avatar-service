@@ -1,14 +1,15 @@
----
-title: ControlNet
-emoji: 🦀
-colorFrom: blue
-colorTo: green
-sdk: gradio
-sdk_version: 3.18.0
-app_file: app.py
-pinned: true
-tags:
-- making-demos
----
+## REST API FOR CONTROL-NET
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+This code uses realisticv1.3 model as a base..
+
+Thanks to 
+
+```
+#create env
+Python -m venv venv
+#activate env
+source venv/bin/activate
+pip install -r requirements.txt
+#now run the main.py file
+python main.py
+```
