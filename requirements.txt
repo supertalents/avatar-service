@@ -4,6 +4,5 @@ transformers
 git+https://github.com/huggingface/accelerate
 torch==1.13.1
 numpy
-controlnet_aux
 xformers==0.0.16
 opencv-contrib-python
