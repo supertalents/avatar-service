@@ -36,7 +36,8 @@ you will post json with it
 ```
 And in return you will get a response in json
 ```
-	{ "image": "base64StringImage" }
+{ "image": "base64StringImage" }
+```
 	
 	
 
