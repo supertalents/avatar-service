@@ -46,7 +46,7 @@ And in return you will get a response in json
 Docker Image available for deploying on runpod.io
 
 ```
-docker pull pydashninja/multi-region
+docker pull pydashninja/controlnet-realistic
 ```
 
 Command to run in runpod.io:
