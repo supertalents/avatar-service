@@ -37,3 +37,22 @@ you will post json with it
 And in return you will get a response in json
 ```
 	{ "image": "base64StringImage" }
+	
+	
+
+## Update 25 MARCH, 2023
+
+Docker Image available for deploying on runpod.io
+
+```
+docker pull pydashninja/multi-region
+```
+
+Command to run in runpod.io:
+
+
+```
+docker run --gpus all -p 5000:443 multi-region
+```
+
+Enjoy!
