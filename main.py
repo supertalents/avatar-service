@@ -11,6 +11,8 @@ import random
 import threading
 from PIL import Image
 import torch
+import os
+
 os.environ['TRANSFORMERS_CACHE'] = './cache/'
 os.environ['XDG_CACHE_HOME'] = './cache/'
 
