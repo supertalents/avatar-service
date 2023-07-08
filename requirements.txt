@@ -1,8 +1,7 @@
---extra-index-url https://download.pytorch.org/whl/cu113
 git+https://github.com/huggingface/diffusers.git 
 transformers
 git+https://github.com/huggingface/accelerate
-torch==1.13.1
+torch
 numpy
-xformers==0.0.16
+xformers
 opencv-contrib-python
