@@ -3,7 +3,7 @@ from diffusers import DDIMScheduler
 from PIL import Image
 import base64
 from io import BytesIO
-from app import cn
+from controlnet import cn
 import torch
 import runpod
 import json
