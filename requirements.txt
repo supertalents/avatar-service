@@ -5,3 +5,4 @@ torch
 numpy
 xformers
 opencv-contrib-python
+runpod
