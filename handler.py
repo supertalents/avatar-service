@@ -42,16 +42,19 @@ def handler(event):
         base64_bytes = base64.b64decode(image)
         image = Image.open(BytesIO(base64_bytes))
 
-        image = cn(model=pipe_canny, prompt=prompt, image=image, height=height, width=width, num_inference_steps=num_inference_steps,
+        images = cn(model=pipe_canny, prompt=prompt, image=image, height=height, width=width, num_inference_steps=num_inference_steps,
                    scale=guidance_scale, seed=seed, low_threshold=low_threshold, high_threshold=high_threshold,  nprompt=nprompt, no_of_images=no_of_images)
 
         buffered = BytesIO()
         # replace "JPEG" with the format of your image
-        image.save(buffered, format="JPEG")
-        encoded_string = base64.b64encode(buffered.getvalue()).decode('utf-8')
+        result = []
+        for image in images:
+            image.save(buffered, format="JPEG")
+            encoded_string = base64.b64encode(buffered.getvalue()).decode('utf-8')
+            result.append({'image': encoded_string})
         # print(encoded_string)
         # print({'image': encoded_string})
-        return {'image': encoded_string}
+        return result
 
     except Exception as E:
         # print(E)

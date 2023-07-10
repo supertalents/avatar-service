@@ -16,7 +16,7 @@ def get_canny_filter(image, low_threshold, high_threshold):
     return canny_image
 
 
-def cn(model,prompt, image, height, width , num_inference_steps, scale, seed, low_threshold, high_threshold,  nprompt, no_of_images):
+def cn(model,prompt, image, height, width , num_inference_steps, scale, seed, low_threshold, high_threshold,  nprompt, no_of_images=1):
     generator = torch.manual_seed(seed)
 
 
@@ -35,4 +35,4 @@ def cn(model,prompt, image, height, width , num_inference_steps, scale, seed, lo
         # mask_image=mask
     )
     # return [canny_image,output.images[0]]
-    return output.images[0]
+    return output.images
