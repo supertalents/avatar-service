@@ -1,3 +1,4 @@
+from env import *
 from diffusers import StableDiffusionControlNetPipeline, ControlNetModel
 from diffusers import DDIMScheduler
 from PIL import Image
@@ -12,9 +13,9 @@ import json
 def handler(event):
     try:
         controlnet_canny = ControlNetModel.from_pretrained(
-            "./cache", torch_dtype=torch.float16)
+            "lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16)
         pipe_canny = StableDiffusionControlNetPipeline.from_pretrained(
-            "./cache", controlnet=controlnet_canny, safety_checker=None, torch_dtype=torch.float16
+            "8glabs/realistic_vision_13", controlnet=controlnet_canny, safety_checker=None, torch_dtype=torch.float16
         )
         pipe_canny.scheduler = DDIMScheduler.from_config(
             pipe_canny.scheduler.config)
